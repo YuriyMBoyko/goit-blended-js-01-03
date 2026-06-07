@@ -1,3 +1,3 @@
-# goit-blended-js
+# goit-blended-js-01-03
 
-GoIT Balanded JavaScript
+GoIT Blended JavaScript 01-03
