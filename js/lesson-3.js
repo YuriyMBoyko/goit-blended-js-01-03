@@ -6,11 +6,17 @@
 /*
 
 const numbers = [1, 2, 3, 4, 5]
+console.log(numbers);
 
 const squares = [];
 numbers.every((number) => squares.push(number * number));
-
 console.log(squares);
+
+const newArray = numbers.map((number) => number * number);
+console.log(newArray);
+
+const powNum = (array, value) => array.map((num) => Math.pow(num, value));
+console.log(powNum(numbers, 2));
 */
 
 
@@ -26,11 +32,16 @@ const data = [
   { id: 2, values: [4, 5, 6] },
   { id: 3, values: [7, 8, 9] },
 ];
+console.log(data);
 
 const dataEx = [];
 data.every((data) => data.values.every((value) => dataEx.push(value)));
-
 console.log(dataEx);
+
+console.log(data.flatMap((item) => item.values));
+
+const glueArray = (array) => array.flatMap((item) => item.values);
+console.log(glueArray(data));
 */
 
 
@@ -51,6 +62,9 @@ const isEmpty = (obj) => !obj || (Object.keys(obj).length === 0);
 
 console.log(people);
 console.log(`${!isEmpty(people.find((person) => person.age < 20))}`);
+
+const isYounger = (array, age) => array.some((person) => person.age < age);
+console.log(isYounger(people, 20));
 */
 
 
@@ -65,6 +79,9 @@ const numbers = [2, 4, 6, 8, 10];
 console.log(numbers);
 console.log(`${!!numbers.find((number) => ((number % 2) === 0))}`);
 console.log(`${Boolean(numbers.find((number) => ((number % 2) === 0)))}`);
+
+const isAllEven = (array) => array.every((number) => (number % 2) === 0);
+console.log(isAllEven(numbers));
 */
 
 
@@ -77,7 +94,10 @@ const numbers = [2, 1, 6, 8, 9, 10, 12, 15];
 
 console.log(numbers);
 console.log(`${numbers.find((number) => number % 2 === 1)}`);
-console.log(`${numbers.filter((number) => number %2 === 1)}`);
+console.log(`${numbers.filter((number) => number % 2 === 1)}`);
+
+const findFirstOdd = (array) => array.find((number) => number % 2 !== 0);
+console.log(findFirstOdd(numbers));
 */
 
 
@@ -141,14 +161,17 @@ console.log(`${JSON.stringify(usersSorted)}`);
 // Очікуваний результат: [{name: "John", age: 27}, {name: "Jane", age: 31}]
 /*
 
-const user = [
+const users = [
   { name: 'John', age: 27 },
   { name: 'Jane', age: 31 },
   { name: 'Bob', age: 19 },
 ];
 
-console.log(user);
-console.log(`${JSON.stringify(user.filter((a) => a.age > 20))}`);
+console.log(users);
+console.log(`${JSON.stringify(users.filter((a) => a.age > 20))}`);
+
+const filterUsers = (array, ageValue) => array.filter((item) => item.age > ageValue);
+console.log(JSON.stringify(filterUsers(users, 20)));
 */
 
 
@@ -161,7 +184,36 @@ console.log(`${JSON.stringify(user.filter((a) => a.age > 20))}`);
 const numbers = [1, 2, 3, 4, 5];
 
 console.log(numbers);
-console.log(`${numbers.reduce((prevValue, number) => {return prevValue += number}, 0)}`);
+console.log(`${numbers.reduce((acc, number) => {return acc += number}, 0)}`);
+*/
+
+
+// Task 10-A
+
+// Підрахунок кількості повторень
+// Дано масив:
+// const fruits = ['apple', 'banana', 'apple', 'orange', 'banana', 'apple'];
+// Завдання: За допомогою reduce підрахуйте, скільки разів кожен фрукт зустрічається в масиві.
+// Очікуваний результат:
+// {
+//   apple: 3,
+//   banana: 2,
+//   orange: 1
+// }
+/*
+
+const fruits = ['apple', 'banana', 'apple', 'orange', 'banana', 'apple'];
+
+const result = fruits.reduce((acc, item) => { 
+  acc[item] = ((Object.hasOwn(acc, item)) ? acc[item] : 0) + 1; 
+  return acc; }, 
+  {});
+console.log(result);
+
+const countFruits = (array) => array.reduce((acc, item) => {
+  acc[item] = (acc?.[item] || 0) + 1;
+  return acc; }, {});
+console.log(countFruits(fruits));
 */
 
 
@@ -188,46 +240,45 @@ console.log(`${numbers.reduce((prevValue, number) => {return prevValue += number
 // Якщо value === 0, викидає помилку з повідомленням про неможливість ділення.
 // Повертає сам об'єкт (this) для підтримки ланцюжкових викликів.
 
-// - метод multiply -Множить поточне значення на value. Повертає this.
+// - метод multiply - Множить поточне значення на value. Повертає this.
 
 // Об'єкт класу може проводити послідовні операції у вигляді ланцюжка
 /*
 
 class Calculator {
-  #value;
 
   constructor(value = 0) {
-    this.#value = value;
+    this.value = value;
   }
 
   number(value) {
-    this.#value = value;
+    this.value = value;
     return this;
   }
 
   getResult() {
-    return this.#value;
+    return this.value;
   }
 
   add(value) {
-    this.#value += value;
+    this.value += value;
     return this;
   }
 
   subtract(value) {
-    this.#value -= value;
+    this.value -= value;
     return this;
   }
 
   divide(value) {
     if (value !== 0) {
-      this.#value = this.#value / value;
+      this.value = this.value / value;
     }
     return this;
   }
 
   multiply(value) {
-    this.#value *= value;
+    this.value *= value;
     return this;
   }
 
@@ -237,6 +288,7 @@ const calc = new Calculator();
 
 
 const result = calc
+
   .number(10)   // Встановлюємо початкове значення 10
   .add(5)       // Додаємо 5 (10 + 5 = 15)
   .subtract(3)  // Віднімаємо 3 (15 - 3 = 12)
@@ -245,7 +297,14 @@ const result = calc
   .getResult(); // Отримуємо результат: 24
 
 
+const result = calc.number(10).add(5).subtract(3).multiply(4).divide(2).getResult();
+
+
+
 console.log(result); // 24
+console.log(calc);
+console.log(`value is ${calc.value}`);
+console.log(calc.value);
 */
 
 
@@ -258,7 +317,7 @@ console.log(result); // 24
 
 class Client {
   #login;
-  #email;
+  #email;;
 
   constructor(params) {
     this.#login = params.login;
@@ -280,9 +339,18 @@ class Client {
   set email(email) {
     this.#email = email;
   }
+    
 }
-*/
 
+const client = new Client();
+console.log(client);
+console.log(client.email);
+
+client.email = "qwertyy";
+//console.log(client.email);
+console.log(client);
+console.log(client.email);
+*/
 
 // Task 13
 
@@ -329,7 +397,7 @@ class Person {
   get email() { return this.#email; }
   set email(value) { this.#email = value; }
 
-  getDetail() {
+  getDetails() {
     return {
       name: this.name,
       age: this.age,
